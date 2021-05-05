@@ -25,6 +25,9 @@ namespace Maps.Database
         {
             modelBuilder.Entity<AppartmentPerson>()
                 .HasKey(sc => new { sc.AppartmentId, sc.PersonId });
+
+            modelBuilder.ApplyConfiguration(new CountryConfiguration());
+            modelBuilder.ApplyConfiguration(new CityConfiguration());
         }
     }
 }
