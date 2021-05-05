@@ -1,10 +1,10 @@
-﻿using Maps.Models;
+﻿using Entity.Models.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Maps.Repositories
+namespace DAL.Abstract.Repositories
 {
     public interface IBaseRepository<TKey, TEntity> where TEntity : BaseEntity<TKey>
     {

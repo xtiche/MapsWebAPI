@@ -1,4 +1,3 @@
-using Maps.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,8 +11,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Maps.Repositories;
-using Maps.Models;
+using DAL.Abstract.Repositories;
+using Database;
+using DAL.Impl.Repositories;
 
 namespace Maps
 {

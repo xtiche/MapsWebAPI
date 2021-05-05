@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Maps.Models;
+using Entity.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Maps.Database
+namespace Database
 {
     public class ApplicationContext : DbContext
     {

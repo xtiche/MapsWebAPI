@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+using Entity.Models.Abstract;
+//using Microsoft.EntityFrameworkCore;
 
-namespace Maps.Models
+namespace Entity.Models
 {
-    [Index(nameof(Name), IsUnique = true)]
+    // TODO
+    //[Index(nameof(Name), IsUnique = true)]
     public class Country : BaseEntity<int>
     {
         public string Name { get; set; }

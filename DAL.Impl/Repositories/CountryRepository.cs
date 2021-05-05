@@ -1,17 +1,17 @@
-﻿using Maps.Database;
-using Maps.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using DAL.Abstract.Repositories;
+using Database;
+using Entity.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Maps.Repositories
+namespace DAL.Impl.Repositories
 {
     public class CountryRepository : ICountryRepository
     {
-        private ApplicationContext _applicationContext;
+        private readonly ApplicationContext _applicationContext;
 
         public CountryRepository(ApplicationContext context)
         {

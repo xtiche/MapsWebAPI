@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Entity.Models.Abstract;
 
-namespace Maps.Models
+namespace Entity.Models
 {
     public class City : BaseEntity<int>
     {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Maps.Models
+namespace Entity.Models.Abstract
 {
-    public class BaseEntity<TKey>
+    public abstract class BaseEntity<TKey>
     {
         public TKey Id { get; set; }
     }

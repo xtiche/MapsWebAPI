@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Entity.Models.Abstract;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Maps.Models
+namespace Entity.Models
 {
     public class Person : BaseEntity<int>
     { 

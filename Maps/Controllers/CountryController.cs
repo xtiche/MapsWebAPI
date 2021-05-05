@@ -1,5 +1,5 @@
-﻿using Maps.Models;
-using Maps.Repositories;
+﻿using DAL.Abstract.Repositories;
+using Entity.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
