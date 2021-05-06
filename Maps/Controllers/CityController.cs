@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Maps.Controllers
@@ -13,6 +14,11 @@ namespace Maps.Controllers
     public class CityController : ControllerBase
     {
         private readonly ICityRepository _repo;
+        private readonly JsonSerializerOptions _jsonIgnoreNullOptions = new JsonSerializerOptions
+        {
+            IgnoreNullValues = true,
+            WriteIndented = true
+        };
 
         public CityController(ICityRepository repo)
         {
@@ -21,23 +27,24 @@ namespace Maps.Controllers
 
         // GET: api/<CityController>
         [HttpGet]
-        public ActionResult<IEnumerable<City>> Get()
+        public ActionResult<String> Get()
         {
             try
             {
-                var list = _repo.GetAll();
-                return Ok(list);
+                return Ok(
+                    JsonSerializer.Serialize(_repo.GetAll(), _jsonIgnoreNullOptions));
             }
             catch (Exception e) { return BadRequest(e.Message); }
         }
 
         // GET api/<CityController>/5
         [HttpGet("{id}")]
-        public ActionResult<City> Get(int id)
+        public ActionResult<String> Get(int id)
         {
             try
             {
-                return Ok(_repo.GetById(id));
+                return Ok(
+                    JsonSerializer.Serialize(_repo.GetById(id), _jsonIgnoreNullOptions));
             }
             catch (Exception e) { return BadRequest(e.Message); }
         }

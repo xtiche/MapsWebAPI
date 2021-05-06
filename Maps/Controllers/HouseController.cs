@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Maps.Controllers
@@ -13,6 +14,11 @@ namespace Maps.Controllers
     public class HouseController : ControllerBase
     {
         private readonly IHouseRepository _repo;
+        private readonly JsonSerializerOptions _jsonIgnoreNullOptions = new JsonSerializerOptions
+        {
+            IgnoreNullValues = true,
+            WriteIndented = true
+        };
 
         public HouseController(IHouseRepository repo)
         {
@@ -25,7 +31,9 @@ namespace Maps.Controllers
         {
             try
             {
-                return Ok(_repo.GetAll());
+                return Ok(
+                    JsonSerializer.Serialize(_repo.GetAll(), _jsonIgnoreNullOptions));
+
             }
             catch (Exception e) { return BadRequest(e.Message); }
         }
@@ -36,7 +44,8 @@ namespace Maps.Controllers
         {
             try
             {
-                return Ok(_repo.GetById(id));
+                return Ok(
+                    JsonSerializer.Serialize(_repo.GetById(id), _jsonIgnoreNullOptions));
             }
             catch (Exception e) { return BadRequest(e.Message); }
         }

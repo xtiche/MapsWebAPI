@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -23,11 +24,16 @@ namespace Maps.Controllers
 
         // GET: api/<PersonController>
         [HttpGet]
-        public ActionResult<IEnumerable<Person>> Get()
+        public ActionResult<String> Get()
         {
             try
             {
-                return Ok(_repo.GetAll());
+                var options = new JsonSerializerOptions
+                {
+                    IgnoreNullValues = true,
+                    WriteIndented = true
+                };
+                return Ok(JsonSerializer.Serialize(_repo.GetAll(), options));
             }
             catch (Exception e) { return BadRequest(e.Message); }
         }
