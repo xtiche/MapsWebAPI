@@ -6,8 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace Maps.Controllers
 {
     [Route("api/[controller]")]
@@ -42,10 +40,7 @@ namespace Maps.Controllers
                 var country = _repo.GetById(id);
                 return Ok(country);
             }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            catch (Exception e) { return BadRequest(e.Message); }
         }
 
         // POST api/<CountryController>
@@ -76,16 +71,13 @@ namespace Maps.Controllers
 
         // PUT api/<CountryController>
         [HttpPut]
-        public ActionResult<bool> Put([FromBody] Country item)
+        public ActionResult<bool> Put([FromBody] Country country)
         {
             try
             {
-                return Ok(_repo.Update(item));
+                return Ok(_repo.Update(country));
             }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            catch (Exception e) { return BadRequest(e.Message); }
         }
 
         // DELETE api/<CountryController>/5
@@ -96,10 +88,7 @@ namespace Maps.Controllers
             {
                 return Ok(_repo.Delete(id));
             }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            catch (Exception e) { return BadRequest(e.Message); }
         }
     }
 }
