@@ -37,6 +37,12 @@ namespace Maps
                 options.UseSqlServer(connection));
 
             services.AddScoped<ICountryRepository, CountryRepository>();
+            services.AddScoped<ICityRepository, CityRepository>();
+            services.AddScoped<IStreetRepository, StreetRepository>();
+            services.AddScoped<IHouseRepository, HouseRepository>();
+            services.AddScoped<IAppartmentRepository, AppartmentRepository>();
+            services.AddScoped<IPersonRepository, PersonRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

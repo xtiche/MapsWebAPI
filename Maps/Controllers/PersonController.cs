@@ -6,22 +6,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
 namespace Maps.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CountryController : ControllerBase
+    public class PersonController : ControllerBase
     {
-        private readonly ICountryRepository _repo;
+        private readonly IPersonRepository _repo;
 
-        public CountryController(ICountryRepository repo)
+        public PersonController(IPersonRepository repo)
         {
             _repo = repo;
         }
 
-        // GET: api/<CountryController>
+        // GET: api/<PersonController>
         [HttpGet]
-        public ActionResult<IEnumerable<Country>> Get()
+        public ActionResult<IEnumerable<Person>> Get()
         {
             try
             {
@@ -30,9 +32,9 @@ namespace Maps.Controllers
             catch (Exception e) { return BadRequest(e.Message); }
         }
 
-        // GET api/<CountryController>/5
+        // GET api/<PersonController>/5
         [HttpGet("{id}")]
-        public ActionResult<Country> Get(int id)
+        public ActionResult<Person> Get(int id)
         {
             try
             {
@@ -41,13 +43,13 @@ namespace Maps.Controllers
             catch (Exception e) { return BadRequest(e.Message); }
         }
 
-        // POST api/<CountryController>
+        // POST api/<PersonController>
         [HttpPost]
-        public ActionResult<int> Post([FromBody] Country entity)
+        public ActionResult<int> Post([FromBody] Person entity)
         {
             if (entity == null)
                 return NotFound();
-          
+
             try
             {
                 return Ok(_repo.Insert(entity));
@@ -55,9 +57,9 @@ namespace Maps.Controllers
             catch (Exception e) { return BadRequest(e.Message); }
         }
 
-        // PUT api/<CountryController>
-        [HttpPut]
-        public ActionResult<bool> Put([FromBody] Country entity)
+        // PUT api/<PersonController>/5
+        [HttpPut("{id}")]
+        public ActionResult<bool> Put([FromBody] Person entity)
         {
             try
             {
@@ -66,23 +68,13 @@ namespace Maps.Controllers
             catch (Exception e) { return BadRequest(e.Message); }
         }
 
-        // DELETE api/<CountryController>/5
+        // DELETE api/<PersonController>/5
         [HttpDelete("{id}")]
         public ActionResult<int> Delete(int id)
         {
             try
             {
                 return Ok(_repo.Delete(id));
-            }
-            catch (Exception e) { return BadRequest(e.Message); }
-        }
-
-        [HttpPost("AddCityToCountry/{countryId}&{cityId}")]
-        public ActionResult<bool> AddCityToCountry(int countryId, int cityId)
-        {
-            try
-            {
-                return Ok(_repo.AddCityToCounty(countryId, cityId));
             }
             catch (Exception e) { return BadRequest(e.Message); }
         }

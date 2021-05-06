@@ -10,18 +10,18 @@ namespace Maps.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CountryController : ControllerBase
+    public class HouseController : ControllerBase
     {
-        private readonly ICountryRepository _repo;
+        private readonly IHouseRepository _repo;
 
-        public CountryController(ICountryRepository repo)
+        public HouseController(IHouseRepository repo)
         {
             _repo = repo;
         }
 
-        // GET: api/<CountryController>
+        // GET: api/<HouseController>
         [HttpGet]
-        public ActionResult<IEnumerable<Country>> Get()
+        public ActionResult<IEnumerable<House>> Get()
         {
             try
             {
@@ -30,9 +30,9 @@ namespace Maps.Controllers
             catch (Exception e) { return BadRequest(e.Message); }
         }
 
-        // GET api/<CountryController>/5
+        // GET api/<HouseController>/5
         [HttpGet("{id}")]
-        public ActionResult<Country> Get(int id)
+        public ActionResult<House> Get(int id)
         {
             try
             {
@@ -41,13 +41,13 @@ namespace Maps.Controllers
             catch (Exception e) { return BadRequest(e.Message); }
         }
 
-        // POST api/<CountryController>
+        // POST api/<HouseController>
         [HttpPost]
-        public ActionResult<int> Post([FromBody] Country entity)
+        public ActionResult<int> Post([FromBody] House entity)
         {
             if (entity == null)
                 return NotFound();
-          
+
             try
             {
                 return Ok(_repo.Insert(entity));
@@ -55,9 +55,9 @@ namespace Maps.Controllers
             catch (Exception e) { return BadRequest(e.Message); }
         }
 
-        // PUT api/<CountryController>
-        [HttpPut]
-        public ActionResult<bool> Put([FromBody] Country entity)
+        // PUT api/<HouseController>/5
+        [HttpPut("{id}")]
+        public ActionResult<bool> Put([FromBody] House entity)
         {
             try
             {
@@ -66,23 +66,13 @@ namespace Maps.Controllers
             catch (Exception e) { return BadRequest(e.Message); }
         }
 
-        // DELETE api/<CountryController>/5
+        // DELETE api/<HouseController>/5
         [HttpDelete("{id}")]
         public ActionResult<int> Delete(int id)
         {
             try
             {
                 return Ok(_repo.Delete(id));
-            }
-            catch (Exception e) { return BadRequest(e.Message); }
-        }
-
-        [HttpPost("AddCityToCountry/{countryId}&{cityId}")]
-        public ActionResult<bool> AddCityToCountry(int countryId, int cityId)
-        {
-            try
-            {
-                return Ok(_repo.AddCityToCounty(countryId, cityId));
             }
             catch (Exception e) { return BadRequest(e.Message); }
         }

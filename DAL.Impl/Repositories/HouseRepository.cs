@@ -9,7 +9,7 @@ using System.Text;
 
 namespace DAL.Impl.Repositories
 {
-    class HouseRepository : IHouseRepository
+    public class HouseRepository : IHouseRepository
     {
         private readonly ApplicationContext _applicationContext;
 

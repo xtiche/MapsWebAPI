@@ -10,7 +10,7 @@ using System.Text;
 
 namespace DAL.Impl.Repositories
 {
-    class PersonRepository : IPersonRepository
+    public class PersonRepository : IPersonRepository
     {
         private readonly ApplicationContext _applicationContext;
 

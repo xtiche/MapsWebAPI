@@ -9,7 +9,7 @@ using System.Text;
 
 namespace DAL.Impl.Repositories
 {
-    class StreetRepository : IStreetRepository
+    public class StreetRepository : IStreetRepository
     {
         private readonly ApplicationContext _applicationContext;
 
