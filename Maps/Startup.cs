@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using DAL.Abstract.Repositories;
 using Database;
 using DAL.Impl.Repositories;
+using Newtonsoft.Json;
 
 namespace Maps
 {
@@ -36,7 +37,6 @@ namespace Maps
                 options.UseSqlServer(connection));
 
             services.AddScoped<ICountryRepository, CountryRepository>();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

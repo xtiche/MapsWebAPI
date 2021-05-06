@@ -13,8 +13,9 @@ namespace Entity.Models
     public class City : BaseEntity<int>
     {
         public string Name { get; set; }
-        public List<House> Streets { get; set; }
 
+        public List<Street> Streets { get; set; }
+        [JsonIgnore]
         public int? CountryId { get; set; }
         [JsonIgnore]
         public Country Country { get; set; }

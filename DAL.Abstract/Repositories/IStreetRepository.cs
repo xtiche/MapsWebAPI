@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DAL.Abstract.Repositories
 {
-    public interface IStreetRepository : IBaseRepository<int, House>
+    public interface IStreetRepository : IBaseRepository<int, Street>
     {
     }
 }

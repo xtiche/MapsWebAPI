@@ -16,6 +16,6 @@ namespace Entity.Models
 
         public int? StreetId { get; set; }
         [JsonIgnore]
-        public House Street { get; set; }
+        public Street Street { get; set; }
     }
 }
