@@ -11,7 +11,7 @@ namespace Database
     {
         public DbSet<Country> Countries { get; set; }
         public DbSet<City> Cities { get; set; }
-        public DbSet<Street> Streets { get; set; }
+        public DbSet<House> Streets { get; set; }
         public DbSet<House> Houses { get; set; }
         public DbSet<Appartment> Appartments { get; set; }
         public DbSet<Person> Pesrons { get; set; }
@@ -28,6 +28,11 @@ namespace Database
 
             modelBuilder.ApplyConfiguration(new CountryConfiguration());
             modelBuilder.ApplyConfiguration(new CityConfiguration());
+            modelBuilder.ApplyConfiguration(new StreetConfiguration());
+            modelBuilder.ApplyConfiguration(new HouseConfiguration());
+            modelBuilder.ApplyConfiguration(new AppartmentConfiguration());
+            modelBuilder.ApplyConfiguration(new PersonConfiguration());
+            modelBuilder.ApplyConfiguration(new AppartmentPersonConfiguration());
         }
     }
 }
