@@ -9,7 +9,7 @@ namespace Entity.Models
     public class Person : BaseEntity<int>
     { 
         public string Name { get; set; }
-        public ICollection<AppartmentPerson> Appartments { get; set; }
+        public ICollection<AppartmentPerson> AppartmentPersonList { get; set; }
 
     }
 }

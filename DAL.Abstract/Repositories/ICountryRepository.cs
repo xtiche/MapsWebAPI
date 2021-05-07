@@ -9,5 +9,6 @@ namespace DAL.Abstract.Repositories
     public interface ICountryRepository : IBaseRepository<int, Country>
     {
         bool AddCitiesToCountry(int countryId, IEnumerable<City> cities);
+        bool RemoveCitiesFromCountry(int countryId, IEnumerable<City> cities);
     }
 }

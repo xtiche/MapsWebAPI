@@ -67,6 +67,22 @@ namespace DAL.Impl.Repositories
             return _applicationContext.Appartments.Find(id);
         }
 
+        public List<Person> GetPeopleInAppartment(int appartmentId)
+        {
+            var existingAppartment = _applicationContext.Appartments.Find(appartmentId);
+            if (existingAppartment == null)
+                throw new ArgumentNullException(nameof(existingAppartment));
+
+            List<Person> peopleInAppartment = new List<Person>();
+
+            foreach (var appartmentPerson in existingAppartment.AppartmentPersonList)
+            {
+                peopleInAppartment.Add(appartmentPerson.Person);
+            }
+
+            return peopleInAppartment;
+        }
+
         public int Insert(Appartment entity)
         {
             if (entity == null)
@@ -76,6 +92,33 @@ namespace DAL.Impl.Repositories
             _applicationContext.SaveChanges();
 
             return entity.Id;
+        }
+
+        public bool RemovePeopleFromAppartment(int appartmentId, IEnumerable<Person> people)
+        {
+            if (people == null)
+                throw new ArgumentNullException(nameof(people));
+
+            var existingAppartment = _applicationContext.Appartments.Find(appartmentId);
+            if (existingAppartment == null)
+                throw new ArgumentNullException(nameof(existingAppartment));
+
+            foreach (var person in people)
+            {
+                var existingPerson = _applicationContext.Persons.Find(person.Id);
+                if (existingPerson == null)
+                    continue;
+
+                var existingAppartmentPerson = _applicationContext.AppartmentPesrons.
+                    FirstOrDefault(x =>
+                    x.AppartmentId == existingAppartment.Id &&
+                    x.PersonId == existingAppartment.Id);
+
+                if (existingAppartmentPerson != null)
+                    _applicationContext.Remove(existingAppartmentPerson);
+            }
+            _applicationContext.SaveChanges();
+            return true;
         }
 
         public bool Update(Appartment entity)

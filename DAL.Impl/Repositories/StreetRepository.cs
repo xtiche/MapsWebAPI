@@ -76,6 +76,29 @@ namespace DAL.Impl.Repositories
             return entity.Id;
         }
 
+        public bool RemoveHousesFromStreet(int streetId, IEnumerable<House> houses)
+        {
+            if (houses == null)
+                throw new ArgumentNullException(nameof(houses));
+
+            var existingStreet = _applicationContext.Streets.Find(streetId);
+            if (existingStreet == null)
+                throw new ArgumentNullException(nameof(existingStreet));
+
+            foreach (var house in houses)
+            {
+                var existingHouse = _applicationContext.Houses.Find(house.Id);
+                if (existingHouse == null)
+                    continue;
+
+                existingHouse.StreetId = 0;
+
+                _applicationContext.Update(existingHouse);
+            }
+            _applicationContext.SaveChanges();
+            return true;
+        }
+
         public bool Update(Street entity)
         {
             if (entity == null)

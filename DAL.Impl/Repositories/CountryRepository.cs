@@ -41,6 +41,29 @@ namespace DAL.Impl.Repositories
             return true;
         }
 
+        public bool RemoveCitiesFromCountry(int countryId, IEnumerable<City> cities)
+        {
+            if (cities == null)
+                throw new ArgumentNullException(nameof(cities));
+
+            var existingCountry = _applicationContext.Countries.Find(countryId);
+            if (existingCountry == null)
+                throw new ArgumentNullException(nameof(existingCountry));
+
+            foreach (var city in cities)
+            {
+                var existingCity = _applicationContext.Cities.Find(city.Id);
+                if (existingCity == null)
+                    continue;
+
+                existingCity.CountryId = 0;
+
+                _applicationContext.Update(existingCity);
+            }
+            _applicationContext.SaveChanges();
+            return true;
+        }
+
         bool IBaseRepository<int, Country>.Delete(int id)
         {
             Country existingCountry = _applicationContext.Countries.Find(id);

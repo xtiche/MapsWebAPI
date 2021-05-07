@@ -19,7 +19,7 @@ namespace DAL.Impl.Repositories
             _applicationContext = context;
         }
 
-        public bool AddAppartmentToPerson(int personId, IEnumerable<Appartment> appartments)
+        public bool AddAppartmentsToPerson(int personId, IEnumerable<Appartment> appartments)
         {
             if (appartments == null)
                 throw new ArgumentNullException(nameof(appartments));
@@ -34,7 +34,8 @@ namespace DAL.Impl.Repositories
                 if (existingAppartment == null)
                     throw new ArgumentNullException(nameof(existingAppartment));
 
-                if (!_applicationContext.AppartmentPesrons.Any(x => x.AppartmentId == existingAppartment.Id && x.PersonId == existingAppartment.Id))
+                if (!_applicationContext.AppartmentPesrons
+                    .Any(x => x.AppartmentId == existingAppartment.Id && x.PersonId == existingAppartment.Id))
                 {
                     _applicationContext.AppartmentPesrons.Add(
                         new AppartmentPerson
@@ -70,6 +71,22 @@ namespace DAL.Impl.Repositories
             return _applicationContext.Persons.Find(id);
         }
 
+        public List<Appartment> GetPersonsAppartments(int personId)
+        {
+            var existingPerson = _applicationContext.Persons.Find(personId);
+            if (existingPerson == null)
+                throw new ArgumentNullException(nameof(existingPerson));
+
+            List<Appartment> personsAppartments = new List<Appartment>();
+
+            foreach (var appartmentPerson in existingPerson.AppartmentPersonList)
+            {
+                personsAppartments.Add(appartmentPerson.Appartment);
+            }
+
+            return personsAppartments;
+        }
+
         public int Insert(Person entity)
         {
             if (entity == null)
@@ -79,6 +96,34 @@ namespace DAL.Impl.Repositories
             _applicationContext.SaveChanges();
 
             return entity.Id;
+        }
+
+        public bool RemoveAppartmentsFromPerson(int personId, IEnumerable<Appartment> appartments)
+        {
+            if (appartments == null)
+                throw new ArgumentNullException(nameof(appartments));
+
+            var existingPerson = _applicationContext.Persons.Find(personId);
+            if (existingPerson == null)
+                throw new ArgumentNullException(nameof(existingPerson));
+
+            foreach (var appartment in appartments)
+            {
+                var existingAppartment = _applicationContext.
+                    Appartments.Find(appartment.Id);
+                if (existingAppartment == null)
+                    continue;
+
+                var existingAppartmentPerson = _applicationContext.AppartmentPesrons.
+                    FirstOrDefault(x =>
+                    x.AppartmentId == existingAppartment.Id &&
+                    x.PersonId == existingAppartment.Id);
+
+                if (existingAppartmentPerson != null)      
+                    _applicationContext.Remove(existingAppartmentPerson);              
+            }
+            _applicationContext.SaveChanges();
+            return true;
         }
 
         public bool Update(Person entity)

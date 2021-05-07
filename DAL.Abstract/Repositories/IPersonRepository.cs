@@ -7,6 +7,8 @@ namespace DAL.Abstract.Repositories
 {
     public interface IPersonRepository : IBaseRepository<int, Person>
     {
-        bool AddAppartmentToPerson(int personId, IEnumerable<Appartment> appartments);
+        bool AddAppartmentsToPerson(int personId, IEnumerable<Appartment> appartments);
+        bool RemoveAppartmentsFromPerson(int personId, IEnumerable<Appartment> appartments);
+        List<Appartment> GetPersonsAppartments(int personId);
     }
 }

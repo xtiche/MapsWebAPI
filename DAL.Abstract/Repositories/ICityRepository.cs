@@ -8,5 +8,6 @@ namespace DAL.Abstract.Repositories
     public interface ICityRepository : IBaseRepository<int, City>
     {
         bool AddStreetsToCity(int cityId, IEnumerable<Street> streets);
+        bool RemoveStreetsFromCity(int cityId, IEnumerable<Street> streets);
     }
 }

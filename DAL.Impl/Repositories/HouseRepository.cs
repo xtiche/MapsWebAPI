@@ -41,6 +41,29 @@ namespace DAL.Impl.Repositories
             return true;
         }
 
+        public bool RemoveAppartmentsFromHouse(int houseId, IEnumerable<Appartment> appartments)
+        {
+            if (appartments == null)
+                throw new ArgumentNullException(nameof(appartments));
+
+            var existingHouse = _applicationContext.Houses.Find(houseId);
+            if (existingHouse == null)
+                throw new ArgumentNullException(nameof(existingHouse));
+
+            foreach (var appartment in appartments)
+            {
+                var existingAppartment = _applicationContext.Appartments.Find(appartment.Id);
+                if (existingAppartment == null)
+                    continue;
+
+                existingAppartment.HouseId = 0;
+
+                _applicationContext.Update(existingAppartment);
+            }
+            _applicationContext.SaveChanges();
+            return true;
+        }
+
         bool IBaseRepository<int, House>.Delete(int id)
         {
             House existingHouse = _applicationContext.Houses.Find(id);
