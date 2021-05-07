@@ -10,6 +10,7 @@ namespace Entity.Models
     public class Appartment : BaseEntity<int>
     {
         public int Number { get; set; }
+        [JsonIgnore]
         public ICollection<AppartmentPerson> AppartmentPersonList { get; set; }
 
         public int? HouseId { get; set; }

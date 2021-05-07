@@ -26,11 +26,11 @@ namespace Maps.Controllers
         }
 
         [HttpPost("{countryId}/AddCitiesToCountry")]
-        public ActionResult<bool> AddCitiesToCountry(int countryId, [FromBody] List<City> cities)
+        public ActionResult<bool> AddCitiesToCountry(int countryId, [FromBody] List<City> entities)
         {
             try
             { 
-                return Ok(_repo.AddCitiesToCountry(countryId, cities.AsEnumerable()));
+                return Ok(_repo.AddCitiesToCountry(countryId, entities.AsEnumerable()));
             }
             catch (Exception e) { return BadRequest(e.Message); }
         }

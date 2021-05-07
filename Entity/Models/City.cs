@@ -15,7 +15,6 @@ namespace Entity.Models
         public string Name { get; set; }
 
         public List<Street> Streets { get; set; }
-        [JsonIgnore]
         public int? CountryId { get; set; }
         [JsonIgnore]
         public Country Country { get; set; }

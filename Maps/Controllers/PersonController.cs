@@ -22,6 +22,37 @@ namespace Maps.Controllers
             _repo = repo;
         }
 
+        [HttpPost("{personId}/AddAppartmentsToPerson")]
+        public ActionResult<bool> AddAppartmentsToPerson(int personId, [FromBody] List<Appartment> entities)
+        {
+            try
+            {
+                return Ok(_repo.AddAppartmentsToPerson(personId, entities.AsEnumerable()));
+            }
+            catch (Exception e) { return BadRequest(e.Message); }
+        }
+
+        [HttpPost("{personId}/RemoveAppartmentsFromPerson")]
+        public ActionResult<bool> RemoveAppartmentsFromPerson(int personId, [FromBody] List<Appartment> entities)
+        {
+            try
+            {
+                return Ok(_repo.RemoveAppartmentsFromPerson(personId, entities.AsEnumerable()));
+            }
+            catch (Exception e) { return BadRequest(e.Message); }
+        }
+
+        [HttpGet("{id}/GetPersonsAppartments")]
+        public ActionResult<List<Appartment>> GetPersonsAppartments(int id)
+        {
+            try
+            {
+                return Ok(_repo.GetPersonsAppartments(id));
+            }
+            catch (Exception e) { return BadRequest(e.Message); }
+        }
+
+
         // GET: api/<PersonController>
         [HttpGet]
         public ActionResult<String> Get()

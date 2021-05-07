@@ -77,11 +77,19 @@ namespace DAL.Impl.Repositories
             if (existingPerson == null)
                 throw new ArgumentNullException(nameof(existingPerson));
 
+            existingPerson.AppartmentPersonList = _applicationContext.
+                AppartmentPesrons.Where(x => x.PersonId == existingPerson.Id).ToList();
+            if (existingPerson.AppartmentPersonList == null)
+                return null;
+
             List<Appartment> personsAppartments = new List<Appartment>();
 
             foreach (var appartmentPerson in existingPerson.AppartmentPersonList)
             {
-                personsAppartments.Add(appartmentPerson.Appartment);
+
+                personsAppartments.Add(
+                    _applicationContext.Appartments.Find(appartmentPerson.AppartmentId)               
+                    ) ;
             }
 
             return personsAppartments;

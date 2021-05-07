@@ -25,6 +25,16 @@ namespace Maps.Controllers
             _repo = repo;
         }
 
+        [HttpPost("{houseId}/AddAppartmentsToHouse")]
+        public ActionResult<bool> AddAppartmentsToHouse(int houseId, [FromBody] List<Appartment> entities)
+        {
+            try
+            {
+                return Ok(_repo.AddAppartmentsToHouse(houseId, entities.AsEnumerable()));
+            }
+            catch (Exception e) { return BadRequest(e.Message); }
+        }
+
         // GET: api/<HouseController>
         [HttpGet]
         public ActionResult<IEnumerable<House>> Get()

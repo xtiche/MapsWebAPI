@@ -25,6 +25,16 @@ namespace Maps.Controllers
             _repo = repo;
         }
 
+        [HttpPost("{streetId}/AddHousesToStreet")]
+        public ActionResult<bool> AddHousesToStreet(int streetId, [FromBody] List<House> entities)
+        {
+            try
+            {
+                return Ok(_repo.AddHousesToStreet(streetId, entities.AsEnumerable()));
+            }
+            catch (Exception e) { return BadRequest(e.Message); }
+        }
+
         // GET: api/<StreetController>
         [HttpGet]
         public ActionResult<String> Get()
