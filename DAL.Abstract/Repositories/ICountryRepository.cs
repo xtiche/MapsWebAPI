@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace DAL.Abstract.Repositories
 {
-    public interface ICountryRepository: IBaseRepository<int, Country>
+    public interface ICountryRepository : IBaseRepository<int, Country>
     {
-        bool AddCityToCounty(int countryId, int cityId);
+        bool AddCitiesToCountry(int countryId, IEnumerable<City> cities);
     }
 }

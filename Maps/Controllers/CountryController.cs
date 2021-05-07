@@ -25,6 +25,16 @@ namespace Maps.Controllers
             _repo = repo;
         }
 
+        [HttpPost("{countryId}/AddCitiesToCountry")]
+        public ActionResult<bool> AddCitiesToCountry(int countryId, [FromBody] List<City> cities)
+        {
+            try
+            { 
+                return Ok(_repo.AddCitiesToCountry(countryId, cities.AsEnumerable()));
+            }
+            catch (Exception e) { return BadRequest(e.Message); }
+        }
+
         // GET: api/<CountryController>
         [HttpGet]
         public ActionResult<String> Get()
@@ -85,14 +95,5 @@ namespace Maps.Controllers
             catch (Exception e) { return BadRequest(e.Message); }
         }
 
-        [HttpPost("AddCityToCountry/{countryId}&{cityId}")]
-        public ActionResult<bool> AddCityToCountry(int countryId, int cityId)
-        {
-            try
-            {
-                return Ok(_repo.AddCityToCounty(countryId, cityId));
-            }
-            catch (Exception e) { return BadRequest(e.Message); }
-        }
     }
 }

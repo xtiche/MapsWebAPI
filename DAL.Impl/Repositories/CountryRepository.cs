@@ -18,21 +18,26 @@ namespace DAL.Impl.Repositories
             _applicationContext = context;
         }
 
-        public bool AddCityToCounty(int countryId, int cityId)
+        public bool AddCitiesToCountry(int countryId, IEnumerable<City> cities)
         {
-            Country existingCountry = _applicationContext.Countries.Find(countryId);
+            if (cities == null)
+                throw new ArgumentNullException(nameof(cities));
+
+            var existingCountry = _applicationContext.Countries.Find(countryId);
             if (existingCountry == null)
                 throw new ArgumentNullException(nameof(existingCountry));
 
-            City existingCity = _applicationContext.Cities.Find(cityId);
-            if (existingCity == null)
-                throw new ArgumentNullException(nameof(existingCity));
+            foreach(var city in cities)
+            {
+                var existingCity = _applicationContext.Cities.Find(city.Id);
+                if (existingCity == null)
+                    throw new ArgumentNullException(nameof(existingCity));
 
-            existingCity.CountryId = existingCountry.Id;
+                existingCity.CountryId = existingCountry.Id;
 
-            _applicationContext.Update(existingCity);
+                _applicationContext.Update(existingCity);
+            }
             _applicationContext.SaveChanges();
-
             return true;
         }
 

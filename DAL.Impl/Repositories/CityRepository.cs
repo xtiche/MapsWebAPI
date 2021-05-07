@@ -18,6 +18,29 @@ namespace DAL.Impl.Repositories
             _applicationContext = context;
         }
 
+        public bool AddStreetsToCity(int cityId, IEnumerable<Street> streets)
+        {
+            if (streets == null)
+                throw new ArgumentNullException(nameof(streets));
+
+            var existingCity = _applicationContext.Cities.Find(cityId);
+            if (existingCity == null)
+                throw new ArgumentNullException(nameof(existingCity));
+
+            foreach (var street in streets)
+            {
+                var existingStreet = _applicationContext.Streets.Find(street.Id);
+                if (existingStreet == null)
+                    throw new ArgumentNullException(nameof(existingStreet));
+
+                existingStreet.CityId = existingCity.Id;
+
+                _applicationContext.Update(existingStreet);
+            }
+            _applicationContext.SaveChanges();
+            return true;
+        }
+
         bool IBaseRepository<int, City>.Delete(int id)
         {
             City existingCity = _applicationContext.Cities.Find(id);

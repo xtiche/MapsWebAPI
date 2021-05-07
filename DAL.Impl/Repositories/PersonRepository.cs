@@ -19,6 +19,35 @@ namespace DAL.Impl.Repositories
             _applicationContext = context;
         }
 
+        public bool AddAppartmentToPerson(int personId, IEnumerable<Appartment> appartments)
+        {
+            if (appartments == null)
+                throw new ArgumentNullException(nameof(appartments));
+
+            var existingPerson = _applicationContext.Persons.Find(personId);
+            if (existingPerson == null)
+                throw new ArgumentNullException(nameof(existingPerson));
+
+            foreach (var appartment in appartments)
+            {
+                var existingAppartment = _applicationContext.Appartments.Find(appartment.Id);
+                if (existingAppartment == null)
+                    throw new ArgumentNullException(nameof(existingAppartment));
+
+                if (!_applicationContext.AppartmentPesrons.Any(x => x.AppartmentId == existingAppartment.Id && x.PersonId == existingAppartment.Id))
+                {
+                    _applicationContext.AppartmentPesrons.Add(
+                        new AppartmentPerson
+                        {
+                            AppartmentId = existingAppartment.Id,
+                            PersonId = existingAppartment.Id
+                        });
+                }
+            }
+            _applicationContext.SaveChanges();
+            return true;
+        }
+
         public bool Delete(int id)
         {
             Person existingPerson = _applicationContext.Persons.Find(id);

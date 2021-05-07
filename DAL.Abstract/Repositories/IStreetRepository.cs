@@ -6,6 +6,7 @@ using System.Text;
 namespace DAL.Abstract.Repositories
 {
     public interface IStreetRepository : IBaseRepository<int, Street>
-    {
+    { 
+        bool AddHousesToStreet(int streetId, IEnumerable<House> houses);
     }
 }
