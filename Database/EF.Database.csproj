@@ -5,13 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.5" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DAL.Abstract\DAL.Abstract.csproj" />
-    <ProjectReference Include="..\Database\Database.csproj" />
-    <ProjectReference Include="..\Entity\Entity.csproj" />
+    <ProjectReference Include="..\Entity\Common.Entity.csproj" />
   </ItemGroup>
 
 </Project>

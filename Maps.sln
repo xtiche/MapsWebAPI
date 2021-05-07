@@ -5,13 +5,15 @@ VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Maps", "Maps\Maps.csproj", "{3A0640CD-873A-4385-AFF6-B98E91388DBC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL.Abstract", "DAL.Abstract\DAL.Abstract.csproj", "{4FB89313-3621-4592-A940-E55EFC98C39A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.DAL.Abstract", "DAL.Abstract\Common.DAL.Abstract.csproj", "{4FB89313-3621-4592-A940-E55EFC98C39A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entity", "Entity\Entity.csproj", "{E8D06A57-27EE-4592-AF51-98E18D619C5A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Entity", "Entity\Common.Entity.csproj", "{E8D06A57-27EE-4592-AF51-98E18D619C5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL.Impl", "DAL.Impl\DAL.Impl.csproj", "{61223D27-FBD5-4E3E-8005-B9E8D7663732}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EF.DAL.Impl", "DAL.Impl\EF.DAL.Impl.csproj", "{61223D27-FBD5-4E3E-8005-B9E8D7663732}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "Database\Database.csproj", "{902F9F32-8404-454C-B25E-ECD5DBCCDAAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EF.Database", "Database\EF.Database.csproj", "{902F9F32-8404-454C-B25E-ECD5DBCCDAAB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ADO.DAL.Impl", "ADO.DAL.Impl\ADO.DAL.Impl.csproj", "{481187D3-DB71-4334-9D9A-6B85D22DD431}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{902F9F32-8404-454C-B25E-ECD5DBCCDAAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{902F9F32-8404-454C-B25E-ECD5DBCCDAAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{902F9F32-8404-454C-B25E-ECD5DBCCDAAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{481187D3-DB71-4334-9D9A-6B85D22DD431}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{481187D3-DB71-4334-9D9A-6B85D22DD431}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{481187D3-DB71-4334-9D9A-6B85D22DD431}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{481187D3-DB71-4334-9D9A-6B85D22DD431}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
