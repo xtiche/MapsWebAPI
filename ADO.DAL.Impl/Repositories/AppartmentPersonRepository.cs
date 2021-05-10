@@ -1,24 +1,27 @@
-﻿using System;
+﻿using ADO.DAL.Impl.Infrastructure;
+using Entity.Models;
+using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.SqlClient;
-using Entity.Models.Abstract;
+using System.Text;
 
-namespace ADO.DAL.Impl.Infrastructure
+namespace ADO.DAL.Impl.Repositories
 {
-    public abstract class BaseRepository<TKey, TEntity> where TEntity : BaseEntity<TKey>
+    class AppartmentPersonRepository
     {
         private readonly SqlConnection _connection;
         private readonly SqlTransaction _transaction;
         private readonly static string connectionString = "Server = (localdb)\\mssqllocaldb;Database=Mapsdb;Trusted_Connection=True;";
 
-        public BaseRepository()
+        public AppartmentPersonRepository()
         {
             _connection = new SqlConnection(connectionString);
             _connection.Open();
 
             _transaction = _connection.BeginTransaction();
         }
+
+        #region baseRegionFunc
 
         public T ExecuteScalar<T>(string sql, IDictionary<string, object> parameters = null)
         {
@@ -64,7 +67,6 @@ namespace ADO.DAL.Impl.Infrastructure
             }
         }
 
-
         public IList<T> ExecuteSelect<T>(
             string sql,
             Func<SqlDataReader, T> rowMapping,
@@ -89,13 +91,12 @@ namespace ADO.DAL.Impl.Infrastructure
             }
         }
 
-
-        public TEntity ExecuteSingleRowSelect(string sql, SqlParameters sqlParameters = null)
+        public AppartmentPerson ExecuteSingleRowSelect(string sql, SqlParameters sqlParameters = null)
         {
             return ExecuteSingleRowSelect(sql, DefaultRowMapping, sqlParameters);
         }
 
-        public IList<TEntity> ExecuteSelect(string sql, SqlParameters sqlParameters = null)
+        public IList<AppartmentPerson> ExecuteSelect(string sql, SqlParameters sqlParameters = null)
         {
             return ExecuteSelect(sql, DefaultRowMapping, sqlParameters);
         }
@@ -114,22 +115,45 @@ namespace ADO.DAL.Impl.Infrastructure
             _transaction.Commit();
         }
 
-        public TKey Upsert(TEntity entity)
+        #endregion
+        
+        public AppartmentPerson DefaultRowMapping(SqlDataReader reader)
         {
-            if (Object.Equals(entity.Id, default(TKey)))
-                return Insert(entity);
-            else
+            return new AppartmentPerson
             {
-                if (Update(entity))
-                    return entity.Id;
-                else
-                    return default(TKey);
-            }
+                AppartmentId = (int)reader["AppartmentId"],
+                PersonId = (int)reader["PersonId"]
+            };
         }
 
-        public abstract TKey Insert(TEntity entity);
-        public abstract bool Update(TEntity entity);
-        public abstract TEntity DefaultRowMapping(SqlDataReader reader);
+        public bool Delete(int appartmentId, int personId)
+        {
+            var res = ExecuteNonQuery(
+                "delete from AppartmentPerson where AppartmentId = @id and PersonId = @PersonId",
+                new SqlParameters() {
+                    { "AppartmentId", appartmentId },
+                    { "PersonId", personId },
+                });
 
+            Commit();
+
+            return res == 1;
+        }
+
+        public int Insert(AppartmentPerson entity)
+        {
+            var newEntityId = (int)
+                ExecuteScalar<decimal>(
+                        "insert into AppartmentPerson (AppartmentId,PersonId) values (@AppartmentId,@PersonId) SELECT SCOPE_IDENTITY()",
+                        new SqlParameters
+                        {
+                            { "AppartmentId", entity.AppartmentId },
+                            { "PersonId", entity.PersonId }
+                        }
+                    );
+            
+            Commit();
+            return newEntityId;
+        }
     }
 }

@@ -13,7 +13,7 @@ namespace Entity.Models
         [JsonIgnore]
         public ICollection<AppartmentPerson> AppartmentPersonList { get; set; }
 
-        public int? HouseId { get; set; }
+        public int HouseId { get; set; }
         [JsonIgnore]
         public House House { get; set; }
     }
