@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Entity\Common.Entity.csproj" />
+    <ProjectReference Include="..\ADO.DAL.Impl\ADO.DAL.Impl.csproj" />
+    <ProjectReference Include="..\Common.BL.Abstract\Common.BL.Abstract.csproj" />
   </ItemGroup>
 
 </Project>

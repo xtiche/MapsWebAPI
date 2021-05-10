@@ -26,6 +26,9 @@ namespace Database
             modelBuilder.Entity<AppartmentPerson>()
                 .HasKey(sc => new { sc.AppartmentId, sc.PersonId });
 
+            modelBuilder.Entity<Person>()
+                .HasIndex(b => b.LastName);
+
             modelBuilder.ApplyConfiguration(new CountryConfiguration());
             modelBuilder.ApplyConfiguration(new CityConfiguration());
             modelBuilder.ApplyConfiguration(new StreetConfiguration());

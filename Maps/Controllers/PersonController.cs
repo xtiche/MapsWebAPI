@@ -55,7 +55,7 @@ namespace Maps.Controllers
             catch (Exception e) { return BadRequest(e.Message); }
         }
 
-        [HttpGet("GetPersonsAppartments/{lastName}")]
+        [HttpGet("GetPeopleByLastName/{lastName}")]
         public ActionResult<List<Appartment>> GetPeopleByLastName(string lastName)
         {
             try

@@ -55,7 +55,7 @@ namespace ADO.DAL.Impl.Repositories
 
         public IList<House> GetAll()
         {
-            var houses = base.ExecuteSelect("Select h.Id, h.Number, h.PosX h.PosY, h.StreetId from Houses h");
+            var houses = base.ExecuteSelect("Select h.Id, h.Number, h.PosX, h.PosY, h.StreetId from Houses h");
 
             AppartmentRepository appartmentRepository = new AppartmentRepository();
             foreach (var house in houses)
