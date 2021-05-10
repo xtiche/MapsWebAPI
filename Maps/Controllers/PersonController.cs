@@ -1,4 +1,5 @@
-﻿using DAL.Abstract.Repositories;
+﻿using Common.BL.Abstract;
+using DAL.Abstract.Repositories;
 using Entity.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -16,10 +17,12 @@ namespace Maps.Controllers
     public class PersonController : ControllerBase
     {
         private readonly IPersonRepository _repo;
+        private readonly IPersonBusinessLogic _bl;
 
-        public PersonController(IPersonRepository repo)
+        public PersonController(IPersonRepository repo, IPersonBusinessLogic bl)
         {
             _repo = repo;
+            _bl = bl;
         }
 
         [HttpPost("{personId}/AddAppartmentsToPerson")]
@@ -52,6 +55,15 @@ namespace Maps.Controllers
             catch (Exception e) { return BadRequest(e.Message); }
         }
 
+        [HttpGet("GetPersonsAppartments/{lastName}")]
+        public ActionResult<List<Appartment>> GetPeopleByLastName(string lastName)
+        {
+            try
+            {
+                return Ok(_bl.GetPeopleByLastName(lastName));
+            }
+            catch (Exception e) { return BadRequest(e.Message); }
+        }
 
         // GET: api/<PersonController>
         [HttpGet]

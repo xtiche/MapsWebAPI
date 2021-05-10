@@ -15,56 +15,68 @@ namespace Database
                 new Person
                 {
                     Id = 1,
-                    Name = "Ronald Dalton"
+                    FirstName = "Ronald",
+                    LastName = "Dalton"
                 },
                 new Person
                 {
                     Id = 2,
-                    Name = "Ashton Richard Gray"
+                    FirstName = "Richard",
+                    LastName = "Ashton"
                 },
                 new Person
                 {
                     Id = 3,
-                    Name = "Brandon Jason Griffin"
+                    FirstName = "Jason",
+                    LastName = "Griffin"
                 },
                 new Person
                 {
                     Id = 4,
-                    Name = "Bryan Richard Rivera"
+                    FirstName = "Richard",
+                    LastName = "Rivera"
                 },
                 new Person
                 {
                     Id = 5,
-                    Name = "Jeremiah Charles Richardson"
+                    FirstName = "Charles",
+                    LastName = "Richardson"
                 },
                 new Person
                 {
                     Id = 6,
-                    Name = "Ryan Seth Cook"
+                    FirstName = "Seth",
+                    LastName = "Cook"
                 },
                 new Person
                 {
                     Id = 7,
-                    Name = "Jennifer Kaylee Reed"
+                    FirstName = "Kaylee",
+                    LastName = "Reed"
                 },
                 new Person
                 {
                     Id = 8,
-                    Name = "Amber Jennifer Lopez"
+                    FirstName = "Jennifer",
+                    LastName = "Lopez"
                 },
                 new Person
                 {
                     Id = 9,
-                    Name = "Alexandra Ashley Parker"
+                    FirstName = "Alexandra",
+                    LastName = "Parker"
                 },
                 new Person
                 {
                     Id = 10,
-                    Name = "Taylor Irea Rogers"
-                }, new Person
+                    FirstName = "Irea",
+                    LastName = "Rogers"
+                },
+                new Person
                 {
                     Id = 11,
-                    Name = "Jennifer Erin Flores"
+                    FirstName = "Jennifer",
+                    LastName = "Flores"
                 }
                 );
         }

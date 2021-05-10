@@ -9,7 +9,8 @@ namespace Entity.Models
 {
     public class Person : BaseEntity<int>
     { 
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         [JsonIgnore]
         public ICollection<AppartmentPerson> AppartmentPersonList { get; set; }
 
