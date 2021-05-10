@@ -10,9 +10,6 @@ namespace ADO.DAL.Impl.Repositories
 {
     public class CountryRepository : BaseRepository<int, Country>, ICountryRepository
     {
-        public CountryRepository(SqlConnection connection, SqlTransactionManager transactionManager)
-            : base(connection, transactionManager)
-        { }
         public bool AddCitiesToCountry(int countryId, IEnumerable<City> cities)
         {
             throw new NotImplementedException();

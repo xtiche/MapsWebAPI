@@ -16,6 +16,8 @@ using Database;
 using DAL.Impl.Repositories;
 using ADO.DAL.Impl.Repositories;
 using Newtonsoft.Json;
+using System.Data.SqlClient;
+using ADO.DAL.Impl.Infrastructure;
 
 namespace Maps
 {
@@ -56,6 +58,10 @@ namespace Maps
                 //services.AddScoped<IHouseRepository, HouseRepository>();
                 //services.AddScoped<IAppartmentRepository, AppartmentRepository>();
                 //services.AddScoped<IPersonRepository, PersonRepository>();
+
+                services.AddScoped<SqlConnection>();
+                services.AddScoped<SqlTransactionManager>();
+                services.AddScoped<SqlParameter>();
             }
 
         }

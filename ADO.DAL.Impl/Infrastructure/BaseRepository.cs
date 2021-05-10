@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using Entity.Models.Abstract;
 
@@ -8,27 +9,32 @@ namespace ADO.DAL.Impl.Infrastructure
     public abstract class BaseRepository<TKey, TEntity> where TEntity : BaseEntity<TKey>
     {
         private readonly SqlConnection _connection;
-        private readonly SqlTransactionManager _transactionManager;
+        SqlTransaction transaction;
+        public static string connectionString = "Server = (localdb)\\mssqllocaldb;Database=Mapsdb;Trusted_Connection=True;";
 
-        public BaseRepository(SqlConnection connection, SqlTransactionManager transactionManager)
+        public BaseRepository()
         {
-            _connection = connection;
-            _transactionManager = transactionManager;
+            _connection = new SqlConnection(connectionString);
+            _connection.Open();
+
+            transaction = _connection.BeginTransaction();
         }
 
         public T ExecuteScalar<T>(string sql, IDictionary<string, object> parameters = null)
         {
-            using (SqlCommand command = new SqlCommand(sql, _connection, _transactionManager.CurrentTransaction))
+
+            using (SqlCommand command = new SqlCommand(sql, _connection, transaction))
             {
                 FillParameters(parameters, command);
 
                 return (T)command.ExecuteScalar();
             }
+
         }
 
-        public int ExecuteNonQuery(string sql, IDictionary<string, object> parameters=null)
+        public int ExecuteNonQuery(string sql, IDictionary<string, object> parameters = null)
         {
-            using (SqlCommand command = new SqlCommand(sql, _connection, _transactionManager.CurrentTransaction))
+            using (SqlCommand command = new SqlCommand(sql, _connection, transaction))
             {
                 FillParameters(parameters, command);
 
@@ -38,11 +44,11 @@ namespace ADO.DAL.Impl.Infrastructure
 
         public T ExecuteSingleRowSelect<T>(
             string sql,
-            Func<SqlDataReader,T> rowMapping, 
+            Func<SqlDataReader, T> rowMapping,
             IDictionary<string, object> parameters = null
             )
         {
-            using (SqlCommand command = new SqlCommand(sql, _connection, _transactionManager.CurrentTransaction))
+            using (SqlCommand command = new SqlCommand(sql, _connection, transaction))
             {
                 FillParameters(parameters, command);
 
@@ -67,7 +73,8 @@ namespace ADO.DAL.Impl.Infrastructure
             IDictionary<string, object> parameters = null
             )
         {
-            using (SqlCommand command = new SqlCommand(sql, _connection, _transactionManager.CurrentTransaction))
+
+            using (SqlCommand command = new SqlCommand(sql, _connection, transaction))
             {
                 FillParameters(parameters, command);
 
