@@ -12,7 +12,23 @@ namespace ADO.DAL.Impl.Repositories
     {
         public bool AddPeopleToAppartment(int appartmentId, IEnumerable<Person> people)
         {
-            throw new NotImplementedException();
+            AppartmentPersonRepository appartmentPersonRepository = new AppartmentPersonRepository();
+            foreach (var person in people)
+            {
+                var existingAppartmentPerson = appartmentPersonRepository.GetById(appartmentId, person.Id);
+                if (existingAppartmentPerson == null)
+                {
+                    appartmentPersonRepository.Insert(
+                        new AppartmentPerson
+                        {
+                            AppartmentId = appartmentId,
+                            PersonId = person.Id
+                        });
+                }
+            }
+            appartmentPersonRepository.Commit();
+
+            return true;
         }
 
         public override Appartment DefaultRowMapping(SqlDataReader reader)
@@ -62,7 +78,15 @@ namespace ADO.DAL.Impl.Repositories
 
         public List<Person> GetPeopleInAppartment(int appartmentId)
         {
-            throw new NotImplementedException();
+            AppartmentPersonRepository appartmentPersonRepository = new AppartmentPersonRepository();
+            var appartmentPersons = appartmentPersonRepository.GetRelationByAppartmentId(appartmentId);
+
+            var people = new List<Person>();
+            PersonRepository personRepository = new PersonRepository();
+            foreach (var appartmentPerson in appartmentPersons)
+                people.Add(personRepository.GetById(appartmentPerson.PersonId));
+
+            return people;
         }
 
         public override int Insert(Appartment entity)
@@ -82,7 +106,17 @@ namespace ADO.DAL.Impl.Repositories
 
         public bool RemovePeopleFromAppartment(int appartmentId, IEnumerable<Person> people)
         {
-            throw new NotImplementedException();
+            AppartmentPersonRepository appartmentPersonRepository = new AppartmentPersonRepository();
+            foreach (var person in people)
+            {
+                var existingAppartmentPerson = appartmentPersonRepository.GetById(appartmentId, person.Id);
+                if (existingAppartmentPerson != null)
+                    appartmentPersonRepository.Delete(appartmentId, person.Id);
+
+            }
+            appartmentPersonRepository.Commit();
+
+            return true;
         }
 
         public override bool Update(Appartment entity)

@@ -135,8 +135,6 @@ namespace ADO.DAL.Impl.Repositories
                     { "PersonId", personId },
                 });
 
-            Commit();
-
             return res == 1;
         }
 
@@ -145,7 +143,7 @@ namespace ADO.DAL.Impl.Repositories
             return ExecuteSelect("Select ap.AppartmentId, ap.PersonId from AppartmentPersons ap");
         }
 
-        public IList<AppartmentPerson> GetAllPersonAppartment(int personId)
+        public IList<AppartmentPerson> GetRelationByPersonId(int personId)
         {
             return ExecuteSelect("Select ap.AppartmentId, ap.PersonId from AppartmentPersons ap where ap.PersonId = @PersonId",
                 new SqlParameters()
@@ -154,7 +152,7 @@ namespace ADO.DAL.Impl.Repositories
                     });
         }
 
-        public IList<AppartmentPerson> GetAllPeopleInAppartment(int appartmentId)
+        public IList<AppartmentPerson> GetRelationByAppartmentId(int appartmentId)
         {
             return ExecuteSelect("Select ap.AppartmentId, ap.PersonId from AppartmentPersons ap where ap.AppartmentId = @AppartmentId",
                 new SqlParameters()
@@ -163,10 +161,22 @@ namespace ADO.DAL.Impl.Repositories
                     });
         }
 
+        public AppartmentPerson GetById(int appartmentId, int personId)
+        {
+            return ExecuteSingleRowSelect(
+                   "Select ap.AppartmentId, ap.PersonId from AppartmentPersons ap where ap.AppartmentId = @AppartmentId AND ap.PersonId = @PersonId",
+                   new SqlParameters()
+                   {
+                        { "AppartmentId", appartmentId },
+                        { "PersonId", personId }
+                   }
+               );
+        }
+
         public int Insert(AppartmentPerson entity)
         {
             var newEntityId = (int)
-                ExecuteScalar<decimal>(
+                ExecuteNonQuery(
                         "insert into AppartmentPersons (AppartmentId,PersonId) values (@AppartmentId,@PersonId) SELECT SCOPE_IDENTITY()",
                         new SqlParameters
                         {
@@ -175,7 +185,6 @@ namespace ADO.DAL.Impl.Repositories
                         }
                     );
             
-            Commit();
             return newEntityId;
         }
     }
