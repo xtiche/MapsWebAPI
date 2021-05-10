@@ -34,10 +34,10 @@ namespace DAL.Impl.Repositories
                 if (existingAppartment == null)
                     throw new ArgumentNullException(nameof(existingAppartment));
 
-                if (!_applicationContext.AppartmentPesrons
+                if (!_applicationContext.AppartmentPersons
                     .Any(x => x.AppartmentId == existingAppartment.Id && x.PersonId == existingAppartment.Id))
                 {
-                    _applicationContext.AppartmentPesrons.Add(
+                    _applicationContext.AppartmentPersons.Add(
                         new AppartmentPerson
                         {
                             AppartmentId = existingAppartment.Id,
@@ -78,7 +78,7 @@ namespace DAL.Impl.Repositories
                 throw new ArgumentNullException(nameof(existingPerson));
 
             existingPerson.AppartmentPersonList = _applicationContext.
-                AppartmentPesrons.Where(x => x.PersonId == existingPerson.Id).ToList();
+                AppartmentPersons.Where(x => x.PersonId == existingPerson.Id).ToList();
             if (existingPerson.AppartmentPersonList == null)
                 return null;
 
@@ -122,7 +122,7 @@ namespace DAL.Impl.Repositories
                 if (existingAppartment == null)
                     continue;
 
-                var existingAppartmentPerson = _applicationContext.AppartmentPesrons.
+                var existingAppartmentPerson = _applicationContext.AppartmentPersons.
                     FirstOrDefault(x =>
                     x.AppartmentId == existingAppartment.Id &&
                     x.PersonId == existingAppartment.Id);

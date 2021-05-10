@@ -20,7 +20,7 @@ namespace ADO.DAL.Impl.Repositories
             return new Person
             {
                 Id = (int)reader["Id"],
-                Name = (string)reader["Name"]                
+                Name = (string)reader["Name"]
             };
         }
 
@@ -53,7 +53,15 @@ namespace ADO.DAL.Impl.Repositories
 
         public List<Appartment> GetPersonsAppartments(int personId)
         {
-            throw new NotImplementedException();
+            AppartmentPersonRepository appartmentPersonRepository = new AppartmentPersonRepository();
+            var appartmentPersons = appartmentPersonRepository.GetAllPersonAppartment(personId);
+
+            var appartments = new List<Appartment>();
+            AppartmentRepository appartmentRepository = new AppartmentRepository();
+            foreach (var appartmentPerson in appartmentPersons)
+                appartments.Add(appartmentRepository.GetById(appartmentPerson.AppartmentId));
+
+            return appartments;
         }
 
         public override int Insert(Person entity)

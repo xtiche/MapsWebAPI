@@ -15,7 +15,7 @@ namespace Database
         public DbSet<House> Houses { get; set; }
         public DbSet<Appartment> Appartments { get; set; }
         public DbSet<Person> Persons { get; set; }
-        public DbSet<AppartmentPerson> AppartmentPesrons { get; set; }
+        public DbSet<AppartmentPerson> AppartmentPersons { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {

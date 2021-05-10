@@ -20,7 +20,8 @@ namespace ADO.DAL.Impl.Repositories
             return new Appartment
             {
                 Id = (int)reader["Id"],
-                Number = (int)reader["Number"]
+                Number = (int)reader["Number"],
+                HouseId = (int)reader["HouseId"]
             };
         }
 

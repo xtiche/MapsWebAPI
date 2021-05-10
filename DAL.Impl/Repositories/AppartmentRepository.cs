@@ -33,8 +33,8 @@ namespace DAL.Impl.Repositories
                 if (existingPerson == null)
                     throw new ArgumentNullException(nameof(existingPerson));
 
-                if (!_applicationContext.AppartmentPesrons.Any(x => x.AppartmentId == existingAppartment.Id && x.PersonId == existingPerson.Id)) {
-                    _applicationContext.AppartmentPesrons.Add(
+                if (!_applicationContext.AppartmentPersons.Any(x => x.AppartmentId == existingAppartment.Id && x.PersonId == existingPerson.Id)) {
+                    _applicationContext.AppartmentPersons.Add(
                         new AppartmentPerson {
                             AppartmentId = existingAppartment.Id,
                             PersonId = existingPerson.Id
@@ -109,7 +109,7 @@ namespace DAL.Impl.Repositories
                 if (existingPerson == null)
                     continue;
 
-                var existingAppartmentPerson = _applicationContext.AppartmentPesrons.
+                var existingAppartmentPerson = _applicationContext.AppartmentPersons.
                     FirstOrDefault(x =>
                     x.AppartmentId == existingAppartment.Id &&
                     x.PersonId == existingAppartment.Id);

@@ -129,7 +129,7 @@ namespace ADO.DAL.Impl.Repositories
         public bool Delete(int appartmentId, int personId)
         {
             var res = ExecuteNonQuery(
-                "delete from AppartmentPerson where AppartmentId = @id and PersonId = @PersonId",
+                "delete from AppartmentPersons where AppartmentId = @id and PersonId = @PersonId",
                 new SqlParameters() {
                     { "AppartmentId", appartmentId },
                     { "PersonId", personId },
@@ -140,11 +140,34 @@ namespace ADO.DAL.Impl.Repositories
             return res == 1;
         }
 
+        public IList<AppartmentPerson> GetAll()
+        {
+            return ExecuteSelect("Select ap.AppartmentId, ap.PersonId from AppartmentPersons ap");
+        }
+
+        public IList<AppartmentPerson> GetAllPersonAppartment(int personId)
+        {
+            return ExecuteSelect("Select ap.AppartmentId, ap.PersonId from AppartmentPersons ap where ap.PersonId = @PersonId",
+                new SqlParameters()
+                    {
+                        { "PersonId", personId }
+                    });
+        }
+
+        public IList<AppartmentPerson> GetAllPeopleInAppartment(int appartmentId)
+        {
+            return ExecuteSelect("Select ap.AppartmentId, ap.PersonId from AppartmentPersons ap where ap.AppartmentId = @AppartmentId",
+                new SqlParameters()
+                    {
+                        { "AppartmentId", appartmentId }
+                    });
+        }
+
         public int Insert(AppartmentPerson entity)
         {
             var newEntityId = (int)
                 ExecuteScalar<decimal>(
-                        "insert into AppartmentPerson (AppartmentId,PersonId) values (@AppartmentId,@PersonId) SELECT SCOPE_IDENTITY()",
+                        "insert into AppartmentPersons (AppartmentId,PersonId) values (@AppartmentId,@PersonId) SELECT SCOPE_IDENTITY()",
                         new SqlParameters
                         {
                             { "AppartmentId", entity.AppartmentId },
