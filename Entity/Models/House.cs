@@ -14,7 +14,7 @@ namespace Entity.Models
         public decimal PosY { get; set; }
         public List<Appartment> Appartments { get; set; }
 
-        public int? StreetId { get; set; }
+        public int StreetId { get; set; }
         [JsonIgnore]
         public Street Street { get; set; }
     }

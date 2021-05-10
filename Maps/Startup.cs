@@ -14,7 +14,10 @@ using Microsoft.EntityFrameworkCore;
 using DAL.Abstract.Repositories;
 using Database;
 using DAL.Impl.Repositories;
+using ADO.DAL.Impl.Repositories;
 using Newtonsoft.Json;
+using System.Data.SqlClient;
+using ADO.DAL.Impl.Infrastructure;
 
 namespace Maps
 {
@@ -36,12 +39,29 @@ namespace Maps
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(connection));
 
-            services.AddScoped<ICountryRepository, CountryRepository>();
-            services.AddScoped<ICityRepository, CityRepository>();
-            services.AddScoped<IStreetRepository, StreetRepository>();
-            services.AddScoped<IHouseRepository, HouseRepository>();
-            services.AddScoped<IAppartmentRepository, AppartmentRepository>();
-            services.AddScoped<IPersonRepository, PersonRepository>();
+
+            if (Boolean.Parse(Configuration["UseEF"]))
+            {
+                services.AddScoped<ICountryRepository, DAL.Impl.Repositories.CountryRepository>();
+                services.AddScoped<ICityRepository, DAL.Impl.Repositories.CityRepository>();
+                services.AddScoped<IStreetRepository, DAL.Impl.Repositories.StreetRepository>();
+                services.AddScoped<IHouseRepository, DAL.Impl.Repositories.HouseRepository>();
+                services.AddScoped<IAppartmentRepository, DAL.Impl.Repositories.AppartmentRepository>();
+                services.AddScoped<IPersonRepository, DAL.Impl.Repositories.PersonRepository>();
+            }
+            else if (Boolean.Parse(Configuration["UseADO"]))
+            {
+
+                services.AddScoped<ICountryRepository, ADO.DAL.Impl.Repositories.CountryRepository>();
+                services.AddScoped<ICityRepository, ADO.DAL.Impl.Repositories.CityRepository>();
+                services.AddScoped<IStreetRepository, ADO.DAL.Impl.Repositories.StreetRepository>();
+                services.AddScoped<IHouseRepository, ADO.DAL.Impl.Repositories.HouseRepository>();
+                services.AddScoped<IAppartmentRepository, ADO.DAL.Impl.Repositories.AppartmentRepository>();
+                services.AddScoped<IPersonRepository, ADO.DAL.Impl.Repositories.PersonRepository>();
+
+                services.AddScoped<SqlConnection>();
+                services.AddScoped<SqlParameter>();
+            }
 
         }
 

@@ -16,10 +16,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DAL.Abstract\DAL.Abstract.csproj" />
-    <ProjectReference Include="..\DAL.Impl\DAL.Impl.csproj" />
-    <ProjectReference Include="..\Database\Database.csproj" />
-    <ProjectReference Include="..\Entity\Entity.csproj" />
+    <ProjectReference Include="..\ADO.DAL.Impl\ADO.DAL.Impl.csproj" />
+    <ProjectReference Include="..\DAL.Abstract\Common.DAL.Abstract.csproj" />
+    <ProjectReference Include="..\DAL.Impl\EF.DAL.Impl.csproj" />
+    <ProjectReference Include="..\Database\EF.Database.csproj" />
+    <ProjectReference Include="..\Entity\Common.Entity.csproj" />
   </ItemGroup>
 
 
