@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>WorkWithEF.DAL.Impl</AssemblyName>
+    <RootNamespace>WorkWithEF.DAL.Impl</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DAL.Abstract\Common.DAL.Abstract.csproj" />
+    <ProjectReference Include="..\Database\WorkWithEF.Database.csproj" />
+    <ProjectReference Include="..\Entity\Common.Entity.csproj" />
+  </ItemGroup>
+
+</Project>

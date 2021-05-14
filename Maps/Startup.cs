@@ -18,6 +18,9 @@ using ADO.DAL.Impl.Repositories;
 using Newtonsoft.Json;
 using System.Data.SqlClient;
 using ADO.DAL.Impl.Infrastructure;
+using Common.BL.Abstract;
+using WorkWithEF.BL.Impl;
+using ADO.BL.Impl;
 
 namespace Maps
 {
@@ -48,6 +51,9 @@ namespace Maps
                 services.AddScoped<IHouseRepository, DAL.Impl.Repositories.HouseRepository>();
                 services.AddScoped<IAppartmentRepository, DAL.Impl.Repositories.AppartmentRepository>();
                 services.AddScoped<IPersonRepository, DAL.Impl.Repositories.PersonRepository>();
+
+                services.AddScoped<IPersonBusinessLogic, WorkWithEF.BL.Impl.PersonBusinessLogic>();
+                services.AddScoped<IHouseBusinessLogic, WorkWithEF.BL.Impl.HouseBusinessLogic>();
             }
             else if (Boolean.Parse(Configuration["UseADO"]))
             {
@@ -58,6 +64,9 @@ namespace Maps
                 services.AddScoped<IHouseRepository, ADO.DAL.Impl.Repositories.HouseRepository>();
                 services.AddScoped<IAppartmentRepository, ADO.DAL.Impl.Repositories.AppartmentRepository>();
                 services.AddScoped<IPersonRepository, ADO.DAL.Impl.Repositories.PersonRepository>();
+
+                services.AddScoped<IPersonBusinessLogic, ADO.BL.Impl.PersonBusinessLogic>();
+                services.AddScoped<IHouseBusinessLogic, ADO.BL.Impl.HouseBusinessLogic>();
 
                 services.AddScoped<SqlConnection>();
                 services.AddScoped<SqlParameter>();

@@ -36,7 +36,8 @@ namespace ADO.DAL.Impl.Repositories
             return new Person
             {
                 Id = (int)reader["Id"],
-                Name = (string)reader["Name"]
+                FirstName = (string)reader["FirstName"],
+                LastName = (string)reader["LastName"],
             };
         }
 
@@ -53,13 +54,13 @@ namespace ADO.DAL.Impl.Repositories
 
         public IList<Person> GetAll()
         {
-            return base.ExecuteSelect("Select p.Id, p.Name from Persons p");
+            return base.ExecuteSelect("Select p.Id, p.FirstName, p.LastName from Persons p");
         }
 
         public Person GetById(int id)
         {
             return base.ExecuteSingleRowSelect(
-                   "Select p.Id, p.Name from Persons p where p.Id = @Id",
+                   "Select p.Id, p.FirstName, p.LastName from Persons p where p.Id = @Id",
                    new SqlParameters()
                    {
                         { "Id", id }
@@ -84,10 +85,11 @@ namespace ADO.DAL.Impl.Repositories
         {
             var newEntityId = (int)
                  base.ExecuteScalar<decimal>(
-                         "insert into Persons (Name) values (@Name) SELECT SCOPE_IDENTITY()",
+                         "insert into Persons (FirstName,LastName) values (@FirstName,@LastName) SELECT SCOPE_IDENTITY()",
                          new SqlParameters
                          {
-                            { "Name", entity.Name }
+                            { "FirstName", entity.FirstName },
+                            { "LastName", entity.LastName }
                          }
                      );
             base.Commit();
@@ -111,10 +113,11 @@ namespace ADO.DAL.Impl.Repositories
         public override bool Update(Person entity)
         {
             var res = base.ExecuteNonQuery(
-                    "update Persons set Name = @Name where Id = @Id ",
+                    "update Persons set FirstName = @FirstName, LastName = @LastName where Id = @Id ",
                     new SqlParameters
                     {
-                        { "Name", entity.Name },
+                        { "FirstName", entity.FirstName },
+                        { "LastName", entity.LastName },
                         { "Id", entity.Id }
                     }
                 );

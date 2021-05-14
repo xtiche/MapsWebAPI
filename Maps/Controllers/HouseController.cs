@@ -1,4 +1,5 @@
-﻿using DAL.Abstract.Repositories;
+﻿using Common.BL.Abstract;
+using DAL.Abstract.Repositories;
 using Entity.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,15 +15,17 @@ namespace Maps.Controllers
     public class HouseController : ControllerBase
     {
         private readonly IHouseRepository _repo;
+        private readonly IHouseBusinessLogic _bl;
         private readonly JsonSerializerOptions _jsonIgnoreNullOptions = new JsonSerializerOptions
         {
             IgnoreNullValues = true,
             WriteIndented = true
         };
 
-        public HouseController(IHouseRepository repo)
+        public HouseController(IHouseRepository repo, IHouseBusinessLogic bl)
         {
             _repo = repo;
+            _bl = bl;
         }
 
         [HttpPost("{houseId}/AddAppartmentsToHouse")]
@@ -31,6 +34,19 @@ namespace Maps.Controllers
             try
             {
                 return Ok(_repo.AddAppartmentsToHouse(houseId, entities.AsEnumerable()));
+            }
+            catch (Exception e) { return BadRequest(e.Message); }
+        }
+
+        // GET: api/<HouseController>
+        [HttpGet("GetPeopleFromHouse/{id}")]
+        public ActionResult<IEnumerable<House>> GetPeopleFromHouse(int id)
+        {
+            try
+            {
+                return Ok(
+                    JsonSerializer.Serialize(_bl.GetPeopleFromHouse(id), _jsonIgnoreNullOptions));
+
             }
             catch (Exception e) { return BadRequest(e.Message); }
         }
