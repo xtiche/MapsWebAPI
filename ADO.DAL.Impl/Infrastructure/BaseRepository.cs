@@ -89,7 +89,6 @@ namespace ADO.DAL.Impl.Infrastructure
             }
         }
 
-
         public TEntity ExecuteSingleRowSelect(string sql, SqlParameters sqlParameters = null)
         {
             return ExecuteSingleRowSelect(sql, DefaultRowMapping, sqlParameters);
@@ -114,17 +113,9 @@ namespace ADO.DAL.Impl.Infrastructure
             _transaction.Commit();
         }
 
-        public TKey Upsert(TEntity entity)
+        public void RollBack()
         {
-            if (Object.Equals(entity.Id, default(TKey)))
-                return Insert(entity);
-            else
-            {
-                if (Update(entity))
-                    return entity.Id;
-                else
-                    return default(TKey);
-            }
+            _transaction.Rollback();
         }
 
         public abstract TKey Insert(TEntity entity);

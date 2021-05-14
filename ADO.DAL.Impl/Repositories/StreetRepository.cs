@@ -13,21 +13,29 @@ namespace ADO.DAL.Impl.Repositories
     {
         public bool AddHousesToStreet(int streetId, IEnumerable<House> houses)
         {
-            int res = 0;
-            foreach (House house in houses)
+            try
             {
-                res += base.ExecuteNonQuery(
-                        "update Houses set StreetId = @StreetId where Id = @Id ",
-                        new SqlParameters
-                        {
+                int res = 0;
+                foreach (House house in houses)
+                {
+                    res += base.ExecuteNonQuery(
+                            "update Houses set StreetId = @StreetId where Id = @Id ",
+                            new SqlParameters
+                            {
                             {"StreetId", streetId},
                             {"Id", house.Id}
-                        }
-                    );
-            }
+                            }
+                        );
+                }
 
-            base.Commit();
-            return res > 0;
+                base.Commit();
+                return res > 0;
+            }
+            catch (Exception e)
+            {
+                base.RollBack();
+                throw e;
+            }
         }
 
         public override Street DefaultRowMapping(SqlDataReader reader)
@@ -42,13 +50,21 @@ namespace ADO.DAL.Impl.Repositories
 
         public bool Delete(int id)
         {
-            var res = base.ExecuteNonQuery(
-                "delete from Streets where Id = @id",
-                new SqlParameters() { { "id", id } });
+            try
+            {
+                var res = base.ExecuteNonQuery(
+                    "delete from Streets where Id = @id",
+                    new SqlParameters() { { "id", id } });
 
-            base.Commit();
+                base.Commit();
 
-            return res == 1;
+                return res == 1;
+            }
+            catch (Exception e)
+            {
+                base.RollBack();
+                throw e;
+            }
         }
 
         public IList<Street> GetAll()
@@ -89,33 +105,49 @@ namespace ADO.DAL.Impl.Repositories
 
         public override int Insert(Street entity)
         {
-            var newEntityId = (int)
-                 base.ExecuteScalar<decimal>(
-                         "insert into Streets (Name,CityId) values (@Name,@CityId) SELECT SCOPE_IDENTITY()",
-                         new SqlParameters
-                         {
+            try
+            {
+                var newEntityId = (int)
+                     base.ExecuteScalar<decimal>(
+                             "insert into Streets (Name,CityId) values (@Name,@CityId) SELECT SCOPE_IDENTITY()",
+                             new SqlParameters
+                             {
                             { "Name", entity.Name },
                             { "CityId", entity.CityId }
-                         }
-                     );
-            base.Commit();
-            return newEntityId;
+                             }
+                         );
+                base.Commit();
+                return newEntityId;
+            }
+            catch (Exception e)
+            {
+                base.RollBack();
+                throw e;
+            }
         }
 
         public override bool Update(Street entity)
         {
-            var res = base.ExecuteNonQuery(
-                    "update Streets set Name = @Name, CityId = @CityId where Id = @Id ",
-                    new SqlParameters
-                    {
+            try
+            {
+                var res = base.ExecuteNonQuery(
+                        "update Streets set Name = @Name, CityId = @CityId where Id = @Id ",
+                        new SqlParameters
+                        {
                         {"Name", entity.Name},
                         {"CityId", entity.CityId},
                         {"Id", entity.Id}
-                    }
-                );
+                        }
+                    );
 
-            base.Commit();
-            return res > 0;
+                base.Commit();
+                return res > 0;
+            }
+            catch (Exception e)
+            {
+                base.RollBack();
+                throw e;
+            }
         }
     }
 }

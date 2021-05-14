@@ -115,8 +115,13 @@ namespace ADO.DAL.Impl.Repositories
             _transaction.Commit();
         }
 
+        public void RollBack()
+        {
+            _transaction.Rollback();
+        }
+
         #endregion
-        
+
         public AppartmentPerson DefaultRowMapping(SqlDataReader reader)
         {
             return new AppartmentPerson

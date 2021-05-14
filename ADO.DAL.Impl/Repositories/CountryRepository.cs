@@ -13,21 +13,29 @@ namespace ADO.DAL.Impl.Repositories
     {
         public bool AddCitiesToCountry(int countryId, IEnumerable<City> cities)
         {
-            int res = 0;
-            foreach (City city in cities)
+            try
             {
-                res += base.ExecuteNonQuery(
-                        "update Cities set CountryId = @CountryId where Id = @Id ",
-                        new SqlParameters
-                        {
-                            {"CountryId", countryId},
-                            {"Id", city.Id}
-                        }
-                    );
-            }
+                int res = 0;
+                foreach (City city in cities)
+                {
+                    res += base.ExecuteNonQuery(
+                            "update Cities set CountryId = @CountryId where Id = @Id ",
+                            new SqlParameters
+                            {
+                                {"CountryId", countryId},
+                                {"Id", city.Id}
+                            }
+                        );
+                }
 
-            base.Commit();
-            return res > 0;
+                base.Commit();
+                return res > 0;
+            }
+            catch (Exception e)
+            {
+                base.RollBack();
+                throw e;
+            }
         }
 
         public override Country DefaultRowMapping(SqlDataReader reader)
@@ -41,13 +49,22 @@ namespace ADO.DAL.Impl.Repositories
 
         public bool Delete(int id)
         {
-            var res = base.ExecuteNonQuery(
-                "delete from Countries where Id = @id",
-                new SqlParameters() { { "id", id } });
+            try
+            {
+                var res = base.ExecuteNonQuery(
+                    "delete from Countries where Id = @id",
+                    new SqlParameters() { { "id", id } });
 
-            base.Commit();
+                base.Commit();
 
-            return res == 1;
+                return res == 1;
+            }
+            catch (Exception e)
+            {
+                base.RollBack();
+                throw e;
+            }
+
         }
 
         public IList<Country> GetAll()
@@ -79,31 +96,47 @@ namespace ADO.DAL.Impl.Repositories
 
         public override int Insert(Country entity)
         {
-            var newEntityId = (int)
-                base.ExecuteScalar<decimal>(
-                        "insert into Countries (Name) values (@Name) SELECT SCOPE_IDENTITY()",
-                        new SqlParameters
-                        {
-                            {"Name", entity.Name}
-                        }
-                    );
-            base.Commit();
-            return newEntityId;
+            try
+            {
+                var newEntityId = (int)
+                    base.ExecuteScalar<decimal>(
+                            "insert into Countries (Name) values (@Name) SELECT SCOPE_IDENTITY()",
+                            new SqlParameters
+                            {
+                                {"Name", entity.Name}
+                            }
+                        );
+                base.Commit();
+                return newEntityId;
+            }
+            catch (Exception e)
+            {
+                base.RollBack();
+                throw e;
+            }
         }
 
         public override bool Update(Country entity)
         {
-            var res = base.ExecuteNonQuery(
-                    "update Countries set Name = @Name where Id = @Id ",
-                    new SqlParameters
-                    {
-                        {"Name", entity.Name},
-                        {"Id", entity.Id}
-                    }
-                );
+            try
+            {
+                var res = base.ExecuteNonQuery(
+                        "update Countries set Name = @Name where Id = @Id ",
+                        new SqlParameters
+                        {
+                            {"Name", entity.Name},
+                            {"Id", entity.Id}
+                        }
+                    );
 
-            base.Commit();
-            return res > 0;
+                base.Commit();
+                return res > 0;
+            }
+            catch (Exception e)
+            {
+                base.RollBack();
+                throw e;
+            }
         }
     }
 }

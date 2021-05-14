@@ -13,21 +13,29 @@ namespace ADO.DAL.Impl.Repositories
     {
         public bool AddAppartmentsToHouse(int houseId, IEnumerable<Appartment> appartments)
         {
-            int res = 0;
-            foreach (Appartment appartment in appartments)
+            try
             {
-                res += base.ExecuteNonQuery(
-                        "update Appartments set HouseId = @HouseId where Id = @Id ",
-                        new SqlParameters
-                        {
-                            {"HouseId", houseId},
-                            {"Id", appartment.Id}
-                        }
-                    );
-            }
+                int res = 0;
+                foreach (Appartment appartment in appartments)
+                {
+                    res += base.ExecuteNonQuery(
+                            "update Appartments set HouseId = @HouseId where Id = @Id ",
+                            new SqlParameters
+                            {
+                                {"HouseId", houseId},
+                                {"Id", appartment.Id}
+                            }
+                        );
+                }
 
-            base.Commit();
-            return res > 0;
+                base.Commit();
+                return res > 0;
+            }
+            catch (Exception e)
+            {
+                base.RollBack();
+                throw e;
+            }
         }
 
         public override House DefaultRowMapping(SqlDataReader reader)
@@ -44,13 +52,21 @@ namespace ADO.DAL.Impl.Repositories
 
         public bool Delete(int id)
         {
-            var res = base.ExecuteNonQuery(
-                "delete from Houses where Id = @id",
-                new SqlParameters() { { "id", id } });
+            try
+            {
+                var res = base.ExecuteNonQuery(
+                    "delete from Houses where Id = @id",
+                    new SqlParameters() { { "id", id } });
 
-            base.Commit();
+                base.Commit();
 
-            return res == 1;
+                return res == 1;
+            }
+            catch (Exception e)
+            {
+                base.RollBack();
+                throw e;
+            }
         }
 
         public IList<House> GetAll()
@@ -88,38 +104,54 @@ namespace ADO.DAL.Impl.Repositories
 
         public override int Insert(House entity)
         {
-            var newEntityId = (int)
-                base.ExecuteScalar<decimal>(
-                        "insert into Houses (Number,PosX,PosY,StreetId) values (@Number,@PosX,@PosY,@StreetId) SELECT SCOPE_IDENTITY()",
+            try
+            {
+                var newEntityId = (int)
+                    base.ExecuteScalar<decimal>(
+                            "insert into Houses (Number,PosX,PosY,StreetId) values (@Number,@PosX,@PosY,@StreetId) SELECT SCOPE_IDENTITY()",
+                            new SqlParameters
+                            {
+                                { "Number", entity.Number },
+                                { "PosX", entity.PosX },
+                                { "PosY", entity.PosY },
+                                { "StreetId", entity.StreetId }
+                            }
+                        );
+                base.Commit();
+                return newEntityId;
+            }
+            catch (Exception e)
+            {
+                base.RollBack();
+                throw e;
+            }
+        }
+
+        public override bool Update(House entity)
+        {
+            try
+            {
+                var res = base.ExecuteNonQuery(
+                        "update Houses set Number = @Number, PosX = @PosX, PosY = @PosY, StreetId = @StreetId " +
+                        "where Id = @Id ",
                         new SqlParameters
                         {
                             { "Number", entity.Number },
                             { "PosX", entity.PosX },
                             { "PosY", entity.PosY },
-                            { "StreetId", entity.StreetId }
+                            { "StreetId", entity.StreetId },
+                            { "Id", entity.Id}
                         }
                     );
-            base.Commit();
-            return newEntityId;
-        }
 
-        public override bool Update(House entity)
-        {
-            var res = base.ExecuteNonQuery(
-                    "update Houses set Number = @Number, PosX = @PosX, PosY = @PosY, StreetId = @StreetId " +
-                    "where Id = @Id ",
-                    new SqlParameters
-                    {
-                        { "Number", entity.Number },
-                        { "PosX", entity.PosX },
-                        { "PosY", entity.PosY },
-                        { "StreetId", entity.StreetId },
-                        { "Id", entity.Id}
-                    }
-                );
-
-            base.Commit();
-            return res > 0;
+                base.Commit();
+                return res > 0;
+            }
+            catch (Exception e)
+            {
+                base.RollBack();
+                throw e;
+            }
         }
     }
 }

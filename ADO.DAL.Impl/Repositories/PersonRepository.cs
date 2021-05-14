@@ -13,22 +13,30 @@ namespace ADO.DAL.Impl.Repositories
         public bool AddAppartmentsToPerson(int personId, IEnumerable<Appartment> appartments)
         {
             AppartmentPersonRepository appartmentPersonRepository = new AppartmentPersonRepository();
-            foreach (var appartment in appartments)
+            try
             {
-                var existingAppartmentPerson = appartmentPersonRepository.GetById(appartment.Id, personId);
-                if (existingAppartmentPerson == null)
+                foreach (var appartment in appartments)
                 {
-                    appartmentPersonRepository.Insert(
-                        new AppartmentPerson
-                        {
-                            AppartmentId = appartment.Id,
-                            PersonId = personId
-                        });
+                    var existingAppartmentPerson = appartmentPersonRepository.GetById(appartment.Id, personId);
+                    if (existingAppartmentPerson == null)
+                    {
+                        appartmentPersonRepository.Insert(
+                            new AppartmentPerson
+                            {
+                                AppartmentId = appartment.Id,
+                                PersonId = personId
+                            });
+                    }
                 }
-            }
-            appartmentPersonRepository.Commit();
 
-            return true;
+                appartmentPersonRepository.Commit();
+                return true;
+            }
+            catch (Exception e)
+            {
+                appartmentPersonRepository.RollBack();
+                throw e;
+            }
         }
 
         public override Person DefaultRowMapping(SqlDataReader reader)
@@ -43,13 +51,20 @@ namespace ADO.DAL.Impl.Repositories
 
         public bool Delete(int id)
         {
-            var res = base.ExecuteNonQuery(
-                "delete from Persons where Id = @id",
-                new SqlParameters() { { "id", id } });
+            try
+            {
+                var res = base.ExecuteNonQuery(
+                    "delete from Persons where Id = @id",
+                    new SqlParameters() { { "id", id } });
 
-            base.Commit();
-
-            return res == 1;
+                base.Commit();
+                return res == 1;
+            }
+            catch (Exception e)
+            {
+                base.RollBack();
+                throw e;
+            }
         }
 
         public IList<Person> GetAll()
@@ -83,47 +98,71 @@ namespace ADO.DAL.Impl.Repositories
 
         public override int Insert(Person entity)
         {
-            var newEntityId = (int)
-                 base.ExecuteScalar<decimal>(
-                         "insert into Persons (FirstName,LastName) values (@FirstName,@LastName) SELECT SCOPE_IDENTITY()",
-                         new SqlParameters
-                         {
-                            { "FirstName", entity.FirstName },
-                            { "LastName", entity.LastName }
-                         }
-                     );
-            base.Commit();
-            return newEntityId;
+            try
+            {
+                var newEntityId = (int)
+                     base.ExecuteScalar<decimal>(
+                             "insert into Persons (FirstName,LastName) values (@FirstName,@LastName) SELECT SCOPE_IDENTITY()",
+                             new SqlParameters
+                             {
+                                 { "FirstName", entity.FirstName },
+                                 { "LastName", entity.LastName }
+                             }
+                         );
+                base.Commit();
+                return newEntityId;
+            }
+            catch (Exception e)
+            {
+                base.RollBack();
+                throw e;
+            }
         }
 
         public bool RemoveAppartmentsFromPerson(int personId, IEnumerable<Appartment> appartments)
         {
             AppartmentPersonRepository appartmentPersonRepository = new AppartmentPersonRepository();
-            foreach (var appartment in appartments)
+            try
             {
-                var existingAppartmentPerson = appartmentPersonRepository.GetById(appartment.Id, personId);
-                if (existingAppartmentPerson != null)
-                    appartmentPersonRepository.Delete(appartment.Id, personId);
-            }
-            appartmentPersonRepository.Commit();
+                foreach (var appartment in appartments)
+                {
+                    var existingAppartmentPerson = appartmentPersonRepository.GetById(appartment.Id, personId);
+                    if (existingAppartmentPerson != null)
+                        appartmentPersonRepository.Delete(appartment.Id, personId);
+                }
 
-            return true;
+                appartmentPersonRepository.Commit();
+                return true;
+            }
+            catch (Exception e)
+            {
+                appartmentPersonRepository.RollBack();
+                throw e;
+            }
         }
 
         public override bool Update(Person entity)
         {
-            var res = base.ExecuteNonQuery(
-                    "update Persons set FirstName = @FirstName, LastName = @LastName where Id = @Id ",
-                    new SqlParameters
-                    {
-                        { "FirstName", entity.FirstName },
-                        { "LastName", entity.LastName },
-                        { "Id", entity.Id }
-                    }
-                );
+            try
+            {
+                var res = base.ExecuteNonQuery(
+                        "update Persons set FirstName = @FirstName, LastName = @LastName where Id = @Id ",
+                        new SqlParameters
+                        {
+                            { "FirstName", entity.FirstName },
+                            { "LastName", entity.LastName },
+                            { "Id", entity.Id }
+                        }
+                    );
 
-            base.Commit();
-            return res > 0;
+                base.Commit();
+                return res > 0;
+            }
+            catch (Exception e)
+            {
+                base.RollBack();
+                throw e;
+            }
         }
     }
 }

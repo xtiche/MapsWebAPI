@@ -13,21 +13,29 @@ namespace ADO.DAL.Impl.Repositories
     {
         public bool AddStreetsToCity(int cityId, IEnumerable<Street> streets)
         {
-            int res = 0;
-            foreach (Street street in streets)
+            try
             {
-                res += base.ExecuteNonQuery(
-                        "update Streets set CityId = @CityId where Id = @Id ",
-                        new SqlParameters
-                        {
-                            {"CityId", cityId},
-                            {"Id", street.Id}
-                        }
-                    );
-            }
+                int res = 0;
+                foreach (Street street in streets)
+                {
+                    res += base.ExecuteNonQuery(
+                            "update Streets set CityId = @CityId where Id = @Id ",
+                            new SqlParameters
+                            {
+                                {"CityId", cityId},
+                                {"Id", street.Id}
+                            }
+                        );
+                }
 
-            base.Commit();
-            return res > 0;
+                base.Commit();
+                return res > 0;
+            }
+            catch (Exception e)
+            {
+                base.RollBack();
+                throw e;
+            }
         }
 
         public override City DefaultRowMapping(SqlDataReader reader)
@@ -42,13 +50,20 @@ namespace ADO.DAL.Impl.Repositories
 
         public bool Delete(int id)
         {
-            var res = base.ExecuteNonQuery(
-                "delete from Cities where Id = @id",
-                new SqlParameters() { { "id", id } });
+            try
+            {
+                var res = base.ExecuteNonQuery(
+                    "delete from Cities where Id = @id",
+                    new SqlParameters() { { "id", id } });
 
-            base.Commit();
-
-            return res == 1;
+                base.Commit();
+                return res == 1;
+            }
+            catch (Exception e)
+            {
+                base.RollBack();
+                throw e;
+            }
         }
 
         public IList<City> GetAll()
@@ -87,33 +102,50 @@ namespace ADO.DAL.Impl.Repositories
 
         public override int Insert(City entity)
         {
-            var newEntityId = (int)
-                base.ExecuteScalar<decimal>(
-                        "insert into Cities (Name,CountryId) values (@Name,@CountryId) SELECT SCOPE_IDENTITY()",
-                        new SqlParameters
-                        {
-                            { "Name", entity.Name },
-                            { "CountryId", entity.CountryId }
-                        }
-                    );
-            base.Commit();
-            return newEntityId;
+            try
+            {
+                var newEntityId = (int)
+                    base.ExecuteScalar<decimal>(
+                            "insert into Cities (Name,CountryId) values (@Name,@CountryId) SELECT SCOPE_IDENTITY()",
+                            new SqlParameters
+                            {
+                                { "Name", entity.Name },
+                                { "CountryId", entity.CountryId }
+                            }
+                        );
+                base.Commit();
+                return newEntityId;
+            }
+            catch (Exception e)
+            {
+                base.RollBack();
+                throw e;
+            }
         }
+
 
         public override bool Update(City entity)
         {
-            var res = base.ExecuteNonQuery(
-                    "update Cities set Name = @Name, CountryId = @CountryId where Id = @Id ",
-                    new SqlParameters
-                    {
-                        { "Name", entity.Name },
-                        { "CountryId", entity.CountryId },
-                        { "Id", entity.Id }
-                    }
-                );
+            try
+            {
+                var res = base.ExecuteNonQuery(
+                        "update Cities set Name = @Name, CountryId = @CountryId where Id = @Id ",
+                        new SqlParameters
+                        {
+                            { "Name", entity.Name },
+                            { "CountryId", entity.CountryId },
+                            { "Id", entity.Id }
+                        }
+                    );
 
-            base.Commit();
-            return res > 0;
+                base.Commit();
+                return res > 0;
+            }
+            catch (Exception e)
+            {
+                base.RollBack();
+                throw e;
+            }
         }
     }
 }
