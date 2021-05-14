@@ -11,9 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DAL.Abstract\Common.DAL.Abstract.csproj" />
-    <ProjectReference Include="..\Database\WorkWithEF.Database.csproj" />
-    <ProjectReference Include="..\Entity\Common.Entity.csproj" />
+    <ProjectReference Include="..\Common.DAL.Abstract\Common.DAL.Abstract.csproj" />
+    <ProjectReference Include="..\WorkWithEF.Database\WorkWithEF.Database.csproj" />
+    <ProjectReference Include="..\Common.Entity\Common.Entity.csproj" />
   </ItemGroup>
 
 </Project>
