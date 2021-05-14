@@ -22,8 +22,8 @@ namespace ADO.DAL.Impl.Repositories
                             "update Houses set StreetId = @StreetId where Id = @Id ",
                             new SqlParameters
                             {
-                            {"StreetId", streetId},
-                            {"Id", house.Id}
+                                {"StreetId", streetId},
+                                {"Id", house.Id}
                             }
                         );
                 }
@@ -112,8 +112,8 @@ namespace ADO.DAL.Impl.Repositories
                              "insert into Streets (Name,CityId) values (@Name,@CityId) SELECT SCOPE_IDENTITY()",
                              new SqlParameters
                              {
-                            { "Name", entity.Name },
-                            { "CityId", entity.CityId }
+                                { "Name", entity.Name },
+                                { "CityId", entity.CityId }
                              }
                          );
                 base.Commit();
@@ -134,9 +134,9 @@ namespace ADO.DAL.Impl.Repositories
                         "update Streets set Name = @Name, CityId = @CityId where Id = @Id ",
                         new SqlParameters
                         {
-                        {"Name", entity.Name},
-                        {"CityId", entity.CityId},
-                        {"Id", entity.Id}
+                            {"Name", entity.Name},
+                            {"CityId", entity.CityId},
+                            {"Id", entity.Id}
                         }
                     );
 
