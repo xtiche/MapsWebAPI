@@ -19,11 +19,11 @@
     <ProjectReference Include="..\ADO.BL.Impl\ADO.BL.Impl.csproj" />
     <ProjectReference Include="..\ADO.DAL.Impl\ADO.DAL.Impl.csproj" />
     <ProjectReference Include="..\Common.BL.Abstract\Common.BL.Abstract.csproj" />
-    <ProjectReference Include="..\DAL.Abstract\Common.DAL.Abstract.csproj" />
-    <ProjectReference Include="..\DAL.Impl\WorkWithEF.DAL.Impl.csproj" />
-    <ProjectReference Include="..\Database\WorkWithEF.Database.csproj" />
-    <ProjectReference Include="..\EF.BL.Impl\WorkWithEF.BL.Impl.csproj" />
-    <ProjectReference Include="..\Entity\Common.Entity.csproj" />
+    <ProjectReference Include="..\Common.DAL.Abstract\Common.DAL.Abstract.csproj" />
+    <ProjectReference Include="..\Common.Entity\Common.Entity.csproj" />
+    <ProjectReference Include="..\WorkWithEF.BL.Impl\WorkWithEF.BL.Impl.csproj" />
+    <ProjectReference Include="..\WorkWithEF.DAL.Impl\WorkWithEF.DAL.Impl.csproj" />
+    <ProjectReference Include="..\WorkWithEF.Database\WorkWithEF.Database.csproj" />
   </ItemGroup>
 
 
